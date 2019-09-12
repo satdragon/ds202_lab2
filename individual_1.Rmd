@@ -7,22 +7,33 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Reading the data
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+**Loading the data into session**
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/lbchu/ds202_labs/master/choco.csv")
+head(choco)
 ```
 
-## Including Plots
+## Quetion set (Individual)
 
-You can also embed plots, for example:
+**1) How are ratings distributed? Don’t forget to mention outliers, if there are any. **
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+The ratings are in a normal distribution focused a little over 3, however there are outliers in the data. YOu can see this in the rating that is maxed out at 5, they must really like it, and the couple that are very low, below 2 in general. 
+
+```{r}
+boxplot(choco[,'Rating'], ylab = "Rating", main = "Boxplot of Chocolate Ratings", col="brown")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+**2) Do ratings depend on the cacao percentage of a chocolate bar?**
+
+Nope, as you can see in the plot below there just doesn't seem to be a clear correlation. There just seems to be a blob of data points and no clear trend upwards or downwards. 
+
+```{r}
+plot(x=choco[,"Cocoa.Pct"], y=choco[,"Rating"], ylab= 'Rating', xlab="Cocoa Percent", main = "Cocoa Percent vs. Rating", col="brown")
+```
+
+**3)What class is the variable representing company locations? How is this different from a ‘character’ variable? (You do not need to produce a graphic for this question.)**
+
+So basically that column, the location column, is a list of Factor variables. A factor variable is a vector of Character variables, commonly used to represent words. In other languages this might be called a string. It is different than a single character variable because it contains a list of character variables.
