@@ -1,5 +1,5 @@
 ---
-title: "team"
+title: "Team"
 output: html_document
 ---
 
@@ -9,20 +9,65 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+**Reading the data in**
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/lbchu/ds202_labs/master/choco.csv")
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+**1) Run the following code line by line to figure out what it’s doing. Then next to each line of code, write a comment explaining its purpose and function, including the use of any specific arguments. Comments in R are proceeded by a #, so that R knows not to run anything after the hashtag.**
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+recent_rating = choco[choco$Review.Date>2011,]
+# This line is creating a new datafram out of columns who's review date is greater than 2011.
+```
+```{r}
+unique(recent_rating$Company.Location)
+# This line is listing all the unique locations from the recent_rating dataframe and storing them in levels.
+```
+```{r}
+recent_rating$Company.Location = droplevels(recent_rating$Company.Location)
+#This is removing the unused levels from the location column of the recent_rating frame.
+```
+```{r}
+head(recent_rating)
+# This displays the top of the recent_rating table
+```
+```{r}
+
+cross_table = table(recent_rating$Review.Date,recent_rating$Company.Location)
+cross_table
+#This line is showing how many times each unique location showed up in a given year in a cross table format.
+```
+```{r}
+which(cross_table[1,]!=0 & cross_table[2,]!=0 & cross_table[3,]!=0 & cross_table[4,]!=0 & cross_table[5,]!=0)
+#This line is shwoing which locations had an entry for ever single year.
+```
+```{r}
+france_recent = subset(recent_rating,Company.Location =='France')
+uk_recent = subset(recent_rating,Company.Location =='U.K.')
+germany_recent = subset(recent_rating,Company.Location=='Germany')
+# These lines are pulling the subset of the data for france, gemany, and the uk from the recent ratings list and putting them in their own subset dataframe.
+```
+```{r}
+par(mfrow=c(2,2))
+color1 = ifelse(france_recent$Rating >median(france_recent$Rating), 'blue', 'green')
+plot(france_recent$Cocoa.Pct ~ france_recent$Review.Date,ylim=c(50,90),col=color1,pch=18,cex=1.5,xlab="Review Date", ylab= "Cocoa Percentage", main= "France") 
+legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('blue','green'),pch=18)
+
+color2 = ifelse(uk_recent$Rating >median(uk_recent$Rating), 'purple', 'red')
+plot(uk_recent$Cocoa.Pct ~ uk_recent$Review.Date,ylim=c(50,90),col=color2,pch=18,cex=1.5, xlab="Review Date", ylab= "Cocoa Percentage", main= "UK")
+legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('purple','red'),pch=18)
+
+color3 = ifelse(germany_recent$Rating > median(germany_recent$Rating), 'orange', 'yellow')
+plot(germany_recent$Cocoa.Pct ~ germany_recent$Review.Date,ylim=c(50,90),col=color3,pch=18,cex=1.5,xlab="Review Date", ylab= "Cocoa Percentage", main= "Germany") 
+legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('orange','yellow'),pch=18)
+
+# These line are all generating a plot that shows all the points of data for each location in a chart of year vs. cocoa percentage, and then the high and low ratings for the review highlighted in different colors. 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+**2) Click Zoom on the Rstudio window (under Plots) to see the plot more clearly. How do you think the plot produced from the code above can be improved? Recommend at least one possible improvement.**
+
+At least on my knitting of the code it appears that the legend for the data is covering the data points. I think it would be good to pass some arguments to position the legend in a better position.
+
