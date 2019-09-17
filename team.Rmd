@@ -71,3 +71,33 @@ legend('bottomright',legend=c('High Rating', 'Low Rating'),col=c('orange','yello
 
 At least on my knitting of the code it appears that the legend for the data is covering the data points. I think it would be good to pass some arguments to position the legend in a better position.
 
+**3) How does the number of ratings (not the actual value of the rating) depend on the year? Use graphics to answer this question.**
+
+```{r}
+x = table(recent_rating$Review.Date)
+barplot(x, col = 'purple')
+```
+
+As the year approaches 2015 the trend increases, then sharply decreases as it goes to 2017.
+
+**4) How do ratings compare across different company locations? Focus on the three locations with the most ratings. Hint: the function `sort()` might come in handy here.**
+
+```{r}
+top3 = head(rev(sort(table(recent_rating$Company))), 3)
+barplot(top3, col = 'blue')
+```
+
+As seen above, Soma has the most products which also means that company has the most ratings, closely followed by A. Morin and Arete. 
+
+**5) Brainstorm and write down an interesting question that can be answer from the dataset. The question should not duplicate the questions above.**
+
+One question that we could ask is which ratings are the most common.
+
+**6) Bonus points (optional): Answer the question from the dataset.**
+
+```{r}
+topratings = table(recent_rating$Rating)
+barplot(topratings, col = 'red')
+```
+
+As you can see here there seems to be a normal distribution or rating density around 3.5ish and there is some very low outliers. We can definetly see the bulk of the data is between 3 and 4 though.
