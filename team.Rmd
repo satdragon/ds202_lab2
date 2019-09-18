@@ -7,7 +7,19 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Info
+
+Names: Devin Erb, Alex Thompson
+
+Github info, 
+
+Link: https://github.com/satdragon/ds202_lab2
+
+Username: satdragon
+
+Repo Name: ds202_lab2
+
+## Questions 
 
 **Reading the data in**
 
